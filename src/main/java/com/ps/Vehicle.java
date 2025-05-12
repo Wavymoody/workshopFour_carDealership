@@ -5,21 +5,23 @@ public class Vehicle {
     private int year;
     private String make;
     private String model;
-    private String vehicleType;
+    private String type;
     private String color;
     private int odometer;
     private double price;
 
-    public Vehicle(int vin, int year, String make, String model, String vehicleType, String color, int odometer, double price) {
+
+    public Vehicle(int vin, int year, String make, String model, String type, String color, int odometer, double price) {
         this.vin = vin;
         this.year = year;
         this.make = make;
         this.model = model;
-        this.vehicleType = vehicleType;
+        this.type = type;
         this.color = color;
         this.odometer = odometer;
         this.price = price;
     }
+
 
     public int getVin() {
         return vin;
@@ -53,12 +55,12 @@ public class Vehicle {
         this.model = model;
     }
 
-    public String getVehicleType() {
-        return vehicleType;
+    public String getType() {
+        return type;
     }
 
-    public void setVehicleType(String vehicleType) {
-        this.vehicleType = vehicleType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getColor() {
@@ -87,15 +89,17 @@ public class Vehicle {
 
     @Override
     public String toString() {
-        return String.format("%d,%d,%s,%s,%s,%s,%d,%f\n",
+        return String.format("%d, %d, %s, %s, %s, %s, %d, %.2f\n",
                 this.vin,
                 this.year,
                 this.make,
                 this.model,
-                this.vehicleType,
+                this.type,
                 this.color,
                 this.odometer,
                 this.price
         );
     }
+
+
 }

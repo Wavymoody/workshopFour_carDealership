@@ -4,23 +4,22 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class DealershipFileManager {
-    public static Dealership getDealership(){
-
-        try{
+    public static Dealership getDealership() {
+        try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader("inventory.csv"));
 
-            String input = bufferedReader.readLine(); // First line of the file > "D & B Used Cars|111 Old Benbrook Rd|817-555-5555"
+            String input = bufferedReader.readLine(); //reads first line of the file
 
-            String[] dealershipDetails = input.split("\\|");// ["D & B Used Cars", "111 Old Benbrook Rd", "817-555-5555"]
+            String[] dealershipDetails = input.split("\\|"); //splits dealership  data by |
             String name = dealershipDetails[0];
             String address = dealershipDetails[1];
             String phone = dealershipDetails[2];
 
             Dealership dealership = new Dealership(name, address, phone);
 
-            // Handle all of the vehicles, lines 2+
-            while((input = bufferedReader.readLine()) != null){
-                String[] vehicleDetails = input.split("\\|");
+            //handle all vehicles
+            while ((input = bufferedReader.readLine()) != null) {
+                String[] vehicleDetails = input.split("\\|"); // splits actual data by |
 
                 int vin = Integer.parseInt(vehicleDetails[0]);
                 int year = Integer.parseInt(vehicleDetails[1]);
@@ -32,20 +31,22 @@ public class DealershipFileManager {
                 double price = Double.parseDouble(vehicleDetails[7]);
 
                 Vehicle vehicle = new Vehicle(vin, year, make, model, type, color, odometer, price);
-                dealership.addVehicle(vehicle);
-            }
 
+                dealership.addVehicle(vehicle);
+
+            }
             return dealership;
 
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
     }
-    public static void saveDealership(Dealership dealership){
+
+    public static void saveDealership(Dealership dealership) {
 
         try {
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("inventory_test.csv"));
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("inventory.csv"));
 
             String firstLine = String.format("%s|%s|%s\n",
                     dealership.getName(),
@@ -56,24 +57,24 @@ public class DealershipFileManager {
 
             ArrayList<Vehicle> vehicles = dealership.getAllVehicles();
 
-            for(Vehicle vehicle: vehicles){
+            for (Vehicle vehicle : vehicles) {
                 String vehicleLine = String.format("%d|%d|%s|%s|%s|%s|%d|%f\n",
                         vehicle.getVin(),
                         vehicle.getYear(),
                         vehicle.getMake(),
                         vehicle.getModel(),
-                        vehicle.getVehicleType(),
+                        vehicle.getType(),
                         vehicle.getColor(),
                         vehicle.getOdometer(),
                         vehicle.getPrice()
                 );
                 bufferedWriter.write(vehicleLine);
             }
-
             bufferedWriter.close();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
+
         }
     }
 }
